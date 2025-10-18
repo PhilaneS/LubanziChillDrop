@@ -24,6 +24,7 @@ jobs:
     - name: Build and push Docker image
       uses: docker/build-push-action@v5
       with:
-        context: ./LubanziChillDropApi/Dockerfile
+        context: ./LubanziChillDropApi
+        file: ./LubanziChillDropApi/Dockerfile
         push: true
         tags: philane07/lubanzi-chilldrop:latest
