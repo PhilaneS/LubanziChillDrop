@@ -1,4 +1,4 @@
-name: CI/CD .NET Core to FreeASPHosting
+name: Build and Deploy .NET 7 to FreeASPHosting
 
 on:
   push:
@@ -10,27 +10,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      # 1️⃣ Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup .NET
+      # 2️⃣ Setup .NET 7
+      - name: Setup .NET 7
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '7.0.x'
 
+      # 3️⃣ Restore dependencies
       - name: Restore dependencies
+        working-directory: LubanziChillDropAPI
         run: dotnet restore
 
-      - name: Build
+      # 4️⃣ Build
+      - name: Build project
+        working-directory: LubanziChillDropAPI
         run: dotnet build --configuration Release
 
-      - name: Publish
+      # 5️⃣ Publish
+      - name: Publish project
+        working-directory: LubanziChillDropAPI
         run: dotnet publish -c Release -o ./publish
 
+      # 6️⃣ Deploy via FTP to FreeASPHosting
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4
         with:
           server: ftp.freeasphosting.net
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: publish
+          local-dir: LubanziChillDropAPI/publish
+          git-ftp-args: --insecure
