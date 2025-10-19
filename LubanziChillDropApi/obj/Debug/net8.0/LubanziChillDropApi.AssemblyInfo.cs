@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LubanziChillDropApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4be19096e22d507992e0156190ee8a9f9c1dfc9b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+049a9a7b637784fa479a9c1ee650f1e35d7b0834")]
 [assembly: System.Reflection.AssemblyProductAttribute("LubanziChillDropApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LubanziChillDropApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
