@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: chilldrop-service
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: chilldrop
   ports:

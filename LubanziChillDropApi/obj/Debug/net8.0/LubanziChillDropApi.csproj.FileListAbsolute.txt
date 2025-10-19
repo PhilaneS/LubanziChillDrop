@@ -31,3 +31,6 @@ C:\Users\kaize\source\repos\LubanziChillDrop\LubanziChillDropApi\obj\Debug\net8.
 C:\Users\kaize\source\repos\LubanziChillDrop\LubanziChillDropApi\obj\Debug\net8.0\LubanziChillDropApi.pdb
 C:\Users\kaize\source\repos\LubanziChillDrop\LubanziChillDropApi\obj\Debug\net8.0\LubanziChillDropApi.genruntimeconfig.cache
 C:\Users\kaize\source\repos\LubanziChillDrop\LubanziChillDropApi\obj\Debug\net8.0\ref\LubanziChillDropApi.dll
+C:\Users\kaize\source\repos\LubanziChillDrop\LubanziChillDropApi\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\kaize\source\repos\LubanziChillDrop\LubanziChillDropApi\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\kaize\source\repos\LubanziChillDrop\LubanziChillDropApi\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
