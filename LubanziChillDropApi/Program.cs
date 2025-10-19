@@ -1,44 +1,84 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-//builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddSingleton<List<Product>>();
+
+// Add the following for Kubernetes Deployment
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+var url = $"http://0.0.0.0:{port}";
+builder.WebHost.UseUrls(url);
+
+
 
 var app = builder.Build();
 
+// Configure Swagger middlewar
+    app.UseSwagger();
+    app.UseSwaggerUI();
+
+
+// Seed initial data
+SeedData(app.Services.GetRequiredService<List<Product>>());
+
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.MapGet("/api/products", (List<Product> products) =>
 {
-    //app.MapOpenApi();
-}
+    return Results.Ok(products);
+});
 
-app.UseHttpsRedirection();
-
-var summaries = new[]
+app.MapGet("/api/products/{id}", (int id, List<Product> products) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    var product = products.FirstOrDefault(p => p.Id == id);
+    if (product == null)
+    {
+        return Results.NotFound();
+    }
+    return Results.Ok(product);
+});
 
-app.MapGet("/", () => "Hello ChillDrop!");
-
-
-app.MapGet("/weatherforecast", () =>
+app.MapPost("/api/products", (Product product, List<Product> products) =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+    products.Add(product);
+    return Results.Created($"/api/products/{product.Id}", product);
+});
+
+app.MapPut("/api/products/{id}", (int id, Product updatedProduct, List<Product> products) =>
+{
+    var product = products.FirstOrDefault(p => p.Id == id);
+    if (product == null)
+    {
+        return Results.NotFound();
+    }
+
+    product.Name = updatedProduct.Name;
+    product.Price = updatedProduct.Price;
+
+    return Results.NoContent();
+});
+
+app.MapDelete("/api/products/{id}", (int id, List<Product> products) =>
+{
+    var product = products.FirstOrDefault(p => p.Id == id);
+    if (product == null)
+    {
+        return Results.NotFound();
+    }
+
+    products.Remove(product);
+    return Results.NoContent();
+});
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+static void SeedData(List<Product> products)
 {
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        products.AddRange(new List<Product>
+    {
+        new Product { Id = 1, Name = "Product A", Price = 12.99m },
+        new Product { Id = 2, Name = "Product B", Price = 23.99m },
+        new Product { Id = 3, Name = "Product C", Price = 34.99m },
+    });
 }

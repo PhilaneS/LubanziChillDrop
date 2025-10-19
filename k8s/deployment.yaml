@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chilldrop-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chilldrop
+  template:
+    metadata:
+      labels:
+        app: chilldrop
+    spec:
+      containers:
+      - name: chilldrop
+        image: philane07/lubanzi-chilldrop:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
