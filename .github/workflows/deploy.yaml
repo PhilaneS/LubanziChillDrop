@@ -22,17 +22,17 @@ jobs:
 
       # 3️⃣ Restore dependencies
       - name: Restore dependencies
-        working-directory: ./LubanziChillDropAPI
+        working-directory: ./LubanziChillDropApi
         run: dotnet restore
 
-      # 4️⃣ Build the project
+      # 4️⃣ Build project
       - name: Build project
-        working-directory: ./LubanziChillDropAPI
+        working-directory: ./LubanziChillDropApi
         run: dotnet build --configuration Release
 
       # 5️⃣ Publish the app
       - name: Publish project
-        working-directory: LubanziChillDropAPI
+        working-directory: ./LubanziChillDropApi
         run: dotnet publish -c Release -o ./publish
 
       # 6️⃣ Deploy to FreeASPHosting via FTP
@@ -42,12 +42,11 @@ jobs:
           server: ftp.freeasphosting.net
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: LubanziChillDropAPI/publish
+          local-dir: LubanziChillDropApi/publish
           git-ftp-args: --insecure
 
       # 7️⃣ Verify deployment
       - name: Verify deployment
         run: |
           echo "Checking deployment status..."
-          curl -I https://philanes.bsite.net || tru
-         
+          curl -I https://philanes.bsite.net || true
