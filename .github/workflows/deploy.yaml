@@ -42,7 +42,7 @@ jobs:
           server: ftp.freeasphosting.net
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: LubanziChillDropApi/publish
+          local-dir: LubanziChillDropApi/publish/
           git-ftp-args: --insecure
 
       # 7️⃣ Verify deployment
