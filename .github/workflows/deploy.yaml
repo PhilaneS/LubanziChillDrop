@@ -36,17 +36,20 @@ jobs:
         run: dotnet publish -c Release -o ./publish
 
       # 6️⃣ Deploy to FreeASPHosting via FTP
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      - name: Deploy via SFTP
+        uses: appleboy/scp-action@v0.1.4
         with:
-          server: webftp.monsterasp.net
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: LubanziChillDropApi/publish/
-          git-ftp-args: --insecure
+          host: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USERNAME }}
+          password: ${{ secrets.SFTP_PASSWORD }}
+          port: 22
+          source: "./publish/*"
+          target: "/site/wwwroot"
+
 
       # 7️⃣ Verify deployment
       - name: Verify deployment
         run: |
           echo "Checking deployment status..."
-          curl -I https://philanes.bsite.net || true
+          curl -I http://${{ secrets.SFTP_HOST }}/site/wwwroot
+          echo "Deployment verified."
