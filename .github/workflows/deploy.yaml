@@ -22,12 +22,12 @@ jobs:
 
       # 3️⃣ Restore dependencies
       - name: Restore dependencies
-        working-directory: LubanziChillDropAPI
+        working-directory: ./LubanziChillDropAPI
         run: dotnet restore
 
       # 4️⃣ Build the project
       - name: Build project
-        working-directory: LubanziChillDropAPI
+        working-directory: ./LubanziChillDropAPI
         run: dotnet build --configuration Release
 
       # 5️⃣ Publish the app
