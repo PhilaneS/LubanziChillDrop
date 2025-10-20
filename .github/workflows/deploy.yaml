@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout code
+      # 1️⃣ Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2️⃣ Setup .NET 7
+      # 2️⃣ Setup .NET 7 SDK
       - name: Setup .NET 7
         uses: actions/setup-dotnet@v3
         with:
@@ -25,22 +25,29 @@ jobs:
         working-directory: LubanziChillDropAPI
         run: dotnet restore
 
-      # 4️⃣ Build
+      # 4️⃣ Build the project
       - name: Build project
         working-directory: LubanziChillDropAPI
         run: dotnet build --configuration Release
 
-      # 5️⃣ Publish
+      # 5️⃣ Publish the app
       - name: Publish project
         working-directory: LubanziChillDropAPI
         run: dotnet publish -c Release -o ./publish
 
-      # 6️⃣ Deploy via FTP to FreeASPHosting
+      # 6️⃣ Deploy to FreeASPHosting via FTP
       - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ftp.freeasphosting.net
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: LubanziChillDropAPI/publish
           git-ftp-args: --insecure
+
+      # 7️⃣ Verify deployment
+      - name: Verify deployment
+        run: |
+          echo "Checking deployment status..."
+          curl -I https://philanes.bsite.net || tru
+         
